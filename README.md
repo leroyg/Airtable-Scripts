@@ -8,3 +8,7 @@ This script updated multiple records at a time. I created it because I was frust
 # IDer:
 
 This script with generate a unqiue ID for each new record and check to make sure that it does already exist. The format of the id is the first 2 letters of the records name and 4 random digits 1000-9999.
+  
+# Geocoder:
+
+This script will Geocode an address into a Lat Lng.

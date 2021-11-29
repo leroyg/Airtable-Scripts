@@ -5,10 +5,11 @@ let result = await table.selectRecordsAsync(); //pulling in the data from the ta
 let config = input.config(); //Defining the configuration of the input
 let view = table.getView("Employees"); //Defining the view
 
-let APIKEY = "CCXXCSDFSDFASASDFSD"; //Defining the API Key
-let tableid = "221234"; //Defining the TableID, This will be found in the URL when you go to the HubDB.
+let APIKEY = "APIKEY"; //Defining the API Key
+let tableid = "TABLEID"; //Defining the TableID, This will be found in the URL when you go to the HubDB.
 
 //Setting up the variable that will be used.
+//These are input variables that came from the trigger.
 var name = config.name;
 
 var path = name.toLowerCase().replace(" ", "-");
@@ -22,6 +23,8 @@ var headshot = config.headshot;
 console.log(headshot)
 
 var department = config.department;
+
+console.log(department[0].slice(3))
 
 var linkedin = config.linkedin;
 
@@ -43,6 +46,13 @@ var locationid = 0;
 
 var updatedrecord=0;
 
+
+if(name=="TEST"){
+
+
+
+
+
 //Gets the data from the HubDB and runs the idfinder function to find the ID's of the location and department.
 
 function idfinderstart(){
@@ -55,22 +65,21 @@ method: 'GET',
 })
 .then(response => response.json())
 
-.then(json => idfinder(json)
+.then(json => idfinder(json))
 
-)
-
-//This function finds the ID's of the location and department, these will then be used to update the record.
+//This function finds the ID's of the location and department, these will then be used to update the record,
+//Because the Work Location Field and the Department are single-select you need to find the ID of the option.
 function idfinder(tabledetails){
 
-  console.log(tabledetails)
+console.log(tabledetails)
 
 for (let column of tabledetails.columns){
 
 if(column.name == "team"){
 
-
 for(option of column.options){
 
+console.log(option.name, department[0].slice(3))
 
 if (option.name == department[0].slice(3)){
 departmentid = option.id;
@@ -97,6 +106,7 @@ console.log("Found the location ID")
 }
 }
 
+idfinderstart();
 
 
 //This function is used to check if the record exists in the HubDB. If it does, it will update the record. If it doesn't, it will create a new record.
@@ -125,10 +135,12 @@ body: JSON.stringify({
   "type": "image"
 },
 "job_title":title,
+//The work_location looks different because it is a single-select. To update it you need to use the id of the option, not the name.
 "work_location":{
 "id":locationid,
 "type":"option"
 },
+//another single-select.
 "team":{
   "id":departmentid,
   "type":"option"
@@ -157,7 +169,7 @@ if (updatedrecord == 0){
 
 console.log("The record doesn't exist in HubDB, creating it now")
 
-fetch('https://api.hubapi.com/cms/v3/hubdb/tables/'+tableid+'/rows?hapikey='+APIKEY, {
+fetch('https://api.hubapi.com/cms/v3/hubdb/tables/2663217/rows?hapikey=b3c497ba-c5b8-4e68-bdc2-ffea6a60cebf', {
 method: 'POST',
 body: JSON.stringify({
 "name":name,
@@ -175,5 +187,6 @@ headers: {
 
 console.log("New Record Created")
 
+}
 }
 }

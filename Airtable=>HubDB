@@ -5,8 +5,8 @@ let result = await table.selectRecordsAsync(); //pulling in the data from the ta
 let config = input.config(); //Defining the configuration of the input
 let view = table.getView("Employees"); //Defining the view
 
-let APIKEY = "APIKEY"; //Defining the API Key
-let tableid = "TABLEID"; //Defining the TableID, This will be found in the URL when you go to the HubDB.
+let APIKEY = "asdfasdfasdfasd"; //Defining the API Key
+let tableid = "2664332"; //Defining the TableID, This will be found in the URL when you go to the HubDB.
 
 //Setting up the variable that will be used.
 //These are input variables that came from the trigger.
@@ -24,7 +24,7 @@ console.log(headshot)
 
 var department = config.department;
 
-console.log(department[0].slice(3))
+
 
 var linkedin = config.linkedin;
 
@@ -47,7 +47,7 @@ var locationid = 0;
 var updatedrecord=0;
 
 
-if(name=="TEST"){
+
 
 
 
@@ -79,7 +79,7 @@ if(column.name == "team"){
 
 for(option of column.options){
 
-console.log(option.name, department[0].slice(3))
+
 
 if (option.name == department[0].slice(3)){
 departmentid = option.id;
@@ -187,6 +187,5 @@ headers: {
 
 console.log("New Record Created")
 
-}
 }
 }
